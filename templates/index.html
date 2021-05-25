@@ -1,0 +1,361 @@
+<style>
+  body {
+      font-family: "Raleway", sans-serif;
+      background-color: #017ee4;
+    }
+    h1 {
+      text-align: center;
+      margin: 20px auto;
+      text-size-adjust: 2;
+      font-family: 'Noto Sans JP', sans-serif;
+      font-size: 50px;
+    }
+    form {
+      width: 70%;
+      margin: auto;
+    }
+  
+    
+    fieldset {
+      padding: 20px;
+      border: 1px solid #264653;
+      border-radius: 10px;
+      margin: 40px auto;
+      box-shadow: 0 0 5px #264653;
+      background-color: #a3d6fd;
+    }
+    label {
+      display: block;
+      
+      margin-bottom: 5px;
+    }
+    input[type="text"], input[type="email"], input[type="number"],select{
+      width: calc(100% - 20px);
+      height: 20px;
+      padding: 5px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      margin-bottom: 10px;
+    }
+  
+    .button {
+    background-color: #5cbf2a;
+    border-radius:28px;
+    border:1px solid #18ab29;
+    display:inline-block;
+    cursor:pointer;
+    color:#ffffff;
+    font-family:Arial;
+    font-size:17px;
+    padding:16px 76px;
+    text-decoration:none;
+    text-shadow:0px 1px 0px #2f6627;
+      position: center;
+  }
+  .button:hover {
+    background-color:#000000;
+  }
+  .button:active {
+    position:relative;
+    top:1px;
+  }
+  
+  
+  
+  /* The Modal (background) */
+  .modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  /* Modal Content/Box */
+  .modal-content {
+    background-color: #a3d6fd;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #2f7e1b;
+    border-width: 0.25em;
+    width: 70%; /* Could be more or less, depending on screen size */
+    border-radius: 10px;
+  }
+  
+  /* The Close Button */
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  </style>
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100;300;400;500&display=swap" rel="stylesheet">
+    <title>SDP Tool</title>
+    
+</head>
+<body>
+        <h1>Software Defect Prediction Tool</h1>
+
+            <fieldset>
+                <h3>About</h3>
+                <p>The goal of this tool is to help developers identify defects based on the existing
+                    software metrics using the state of the art machine learning model and thereby improve software quality, which
+                    ultimately leads to reducing the cost of software development both in the developing and
+                    maintenance phases. The focus is identifying defective modules so that the scope of
+                    software that needs to be examined for defects could be prioritized. This allows the
+                    developer to run test cases in the predicted modules. The proposed methodology helps in
+                    identifying modules that require immediate attention and the reliability of the software is
+                    vastly improved as the high priority defects are handled first.</p>
+
+                <p><strong>Our Custom Model can predict the defects with 99% Accuracy!</strong></p>
+            </fieldset>
+
+            
+            <fieldset>
+              <h3>Result: </h3>
+              <div id = 'result'>
+                <p style = "color: #22860e; text-align: center; font-weight: bold; font-size: larger;">
+                  {{ prediction_text }}
+                </p>
+              </div>
+                
+            </fieldset>
+
+          <!-- Form contents will go here -->
+          <fieldset>
+            <h3>Fill the following Entries with Attributes: </h3>
+            <form action="{{ url_for('predict')}}" method="post">
+            <label>loc:</label>
+            <input type="text" name="loc" placeholder="loc"/>
+            <label>v(g):</label>
+            <input type="text" name="v(g)" placeholder="v(g)"/>
+            <label>ev(g):</label>
+            <input type="text" name="ev(g)" placeholder="ev(g)"/>
+            <label>iv(g):</label>
+            <input type="text" name="iv(g)" placeholder="iv(g)"/>
+            <label>n:</label>
+            <input type="text" name="n" placeholder="n"/>
+            <label>v:</label>
+            <input type="text" name="v" placeholder="v"/>
+            <label>l:</label>
+            <input type="text" name="l" placeholder="l"/>
+            <label>d:</label>
+            <input type="text" name="d" placeholder="d"/>
+            <label>i:</label>
+            <input type="text" name="i" placeholder="i"/>
+            <label>e:</label>
+            <input type="text" name="e" placeholder="e"/>
+            <label>b:</label>
+            <input type="text" name="b" placeholder="b"/>
+            <label>t:</label>
+            <input type="text" name="t" placeholder="t"/>
+            <label>lOCode:</label>
+            <input type="text" name="lOCode" placeholder="lOCode"/>
+            <label>lOComment:</label>
+            <input type="text" name="lOComment" placeholder="lOComment"/>
+            <label>lOBlank:</label>
+            <input type="text" name="lOBlank" placeholder="lOBlank"/>
+
+            <button type="button" class = "button" id = "myBtn">Next</button>
+
+            <!-- The Modal -->
+            <div id="myModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <br>
+                <br>
+                <br>
+                <button type="submit" class = "button" id = "myBtn">Submit & Test</button>
+                <br>
+                <br>
+                <br>
+            </div>
+            </div>
+
+            </form>
+            </fieldset>
+            <br>
+            <br>
+            <h1>OR</h1>
+            <br>
+            <br>
+            <fieldset>
+
+            <h3>Comma Seperated Values as Attributes: </h3>
+            <form action="{{ url_for('predict')}}" method="post">
+            <input type="text" name="csv" placeholder="Comma Seperated Values"/>
+            <button type="button" class = "button" id = "myBtn1">Next</button>
+
+            <!-- The Modal -->
+            <div id="myModal1" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <br>
+                <br>
+                <br>
+                <button type="submit" class = "button" id = "myBtn1">Submit & Test</button>
+                <br>
+                <br>
+                <br>
+            </div>
+            </div>
+            </form>
+        </fieldset>
+
+
+            
+          <fieldset>
+            <h3>Attributes Information: </h3>
+            <style type="text/css">
+                .tg  {border-collapse:collapse;border-spacing:0;}
+                .tg td{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+                  overflow:hidden;padding:10px 5px;word-break:normal;}
+                .tg th{border-color:black;border-style:solid;border-width:1px;font-family:Arial, sans-serif;font-size:14px;
+                  font-weight:normal;overflow:hidden;padding:10px 5px;word-break:normal;}
+                .tg .tg-bvhp{background-color:#017ee4;color:#000000;font-weight:bold;text-align:center;vertical-align:top}
+                .tg .tg-jbyd{background-color:#ffffff;border-color:#000000;text-align:center;vertical-align:top}
+                </style>
+                <table class="tg" align="center">
+                <thead>
+                  <tr>
+                    <th class="tg-bvhp">Attribute Name</th>
+                    <th class="tg-bvhp">Information</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="tg-jbyd">loc</td>
+                    <td class="tg-jbyd">line count of code</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd"><span style="font-weight:400;font-style:normal">v(g)</span></td>
+                    <td class="tg-jbyd">cyclomatic complexity</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">ev(g)</td>
+                    <td class="tg-jbyd">essential complexity</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">iv(g)</td>
+                    <td class="tg-jbyd">design complexity</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">n</td>
+                    <td class="tg-jbyd">total operators + operands</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">v</td>
+                    <td class="tg-jbyd">volume</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">l</td>
+                    <td class="tg-jbyd">program length</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">d</td>
+                    <td class="tg-jbyd">difficulty</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">i</td>
+                    <td class="tg-jbyd">intelligence</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">e</td>
+                    <td class="tg-jbyd">effort</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">b</td>
+                    <td class="tg-jbyd"></td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">t</td>
+                    <td class="tg-jbyd">time estimator</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">lOCode</td>
+                    <td class="tg-jbyd">line count</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">lOComment</td>
+                    <td class="tg-jbyd">count of lines of comments</td>
+                  </tr>
+                  <tr>
+                    <td class="tg-jbyd">lOBlank</td>
+                    <td class="tg-jbyd">count of blank lines</td>
+                  </tr>
+                </tbody>
+                </table>
+          </fieldset>
+    </head>
+</body>
+</html>
+
+
+
+
+
+
+<script>
+// Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the button that opens the modal
+var btn = document.getElementById("myBtn");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on the button, open the modal
+btn.onclick = function() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+  //2nd Button
+
+    // Get the modal
+var modal1 = document.getElementById("myModal1");
+
+// Get the button that opens the modal
+var btn1 = document.getElementById("myBtn1");
+
+// When the user clicks on the button, open the modal
+btn1.onclick = function() {
+  modal1.style.display = "block";
+}
+
+window.onclick = function(event) {
+  if (event.target == modal || event.target == modal1) {
+    event.target.style.display = "none";
+  } 
+}
+</script>
+
