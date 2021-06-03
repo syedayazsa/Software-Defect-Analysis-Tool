@@ -15,7 +15,7 @@ The goal of this tool is to help developers identify defects based on the existi
     $ pip install -r requirements.txt
 ```
 
-2. Run the following command to deploy locally:
+2. Run the following command to run on a local server:
 ```sh
     $ python app.py
 ```
